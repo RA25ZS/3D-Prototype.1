@@ -13,6 +13,7 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Friendly obj");
                 break;
             case "Finish":
+                LoadNextScene();
                 Debug.Log("You hit the finish");
                 break;
             default:
@@ -25,5 +26,10 @@ public class CollisionHandler : MonoBehaviour
     void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void LoadNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
