@@ -5,6 +5,9 @@ using UnityEngine;
 public class RocketMovement : MonoBehaviour
 {
     [SerializeField] AudioClip rocketEngine;
+    [SerializeField] ParticleSystem mainEngine;
+    [SerializeField] ParticleSystem sideEngineRight;
+    [SerializeField] ParticleSystem sideEngineLeft;
     [SerializeField] float speed = 2f;
     [SerializeField] float rotateSpeed = 30f;
 
@@ -28,7 +31,7 @@ public class RocketMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up * speed * Time.deltaTime, ForceMode.Impulse);
+            MoveRocket();
 
             if (!audioSource.isPlaying)
             {
@@ -41,20 +44,38 @@ public class RocketMovement : MonoBehaviour
         }
     }
 
+    private void MoveRocket()
+    {
+        rb.AddRelativeForce(Vector3.up * speed * Time.deltaTime, ForceMode.Impulse);
+        mainEngine.Play();
+        sideEngineLeft.Play();
+        sideEngineRight.Play();
+    }
+
     void RocketRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            rb.freezeRotation = true;
-            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
-            rb.freezeRotation = false;
+            RotateLeft();
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            rb.freezeRotation = true;
-            transform.Rotate(Vector3.forward * -rotateSpeed * Time.deltaTime);
-            rb.freezeRotation = false;
+            RotateRight();
         }
+    }
+
+    private void RotateRight()
+    {
+        rb.freezeRotation = true;
+        transform.Rotate(Vector3.forward * -rotateSpeed * Time.deltaTime);
+        rb.freezeRotation = false;
+    }
+
+    private void RotateLeft()
+    {
+        rb.freezeRotation = true;
+        transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+        rb.freezeRotation = false;
     }
 }
