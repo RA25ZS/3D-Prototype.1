@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float levelDelay = 2.5f;
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.tag)
@@ -13,14 +14,26 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("Friendly obj");
                 break;
             case "Finish":
-                LoadNextScene();
+                HitFinishLine();
                 Debug.Log("You hit the finish");
                 break;
             default:
-                ReloadScene();
+                RocketCrash();
                 Debug.Log("You're dead");
                 break;
         }
+    }
+
+    void HitFinishLine()
+    {
+        GetComponent<RocketMovement>().enabled = false;
+        Invoke("LoadNextScene", levelDelay);
+    }
+
+    void RocketCrash()
+    {
+        GetComponent<RocketMovement>().enabled = false;
+        Invoke("ReloadScene", levelDelay);
     }
     void LoadNextScene()
     {
@@ -38,7 +51,6 @@ public class CollisionHandler : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
-
     }
 
     
