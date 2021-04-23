@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class RocketMovement : MonoBehaviour
 {
-    Rigidbody rb;
-    AudioSource audioSource;
+    [SerializeField] AudioClip rocketEngine;
     [SerializeField] float speed = 2f;
     [SerializeField] float rotateSpeed = 30f;
+
+    Rigidbody rb;
+    AudioSource audioSource;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -30,10 +32,9 @@ public class RocketMovement : MonoBehaviour
 
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(rocketEngine);
             }
         }
-
         else
         {
             audioSource.Stop();
